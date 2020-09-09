@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        table{
+            border: solid 1px;
+        }
+        td{
+
+            border: solid 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+
+    <input type="text" v-model="search" placeholder="卡号" />
+
+    <!--<table >-->
+        <!--<thead>-->
+            <!--<th>id</th>-->
+            <!--<th>cardId</th>-->
+            <!--<th>password</th>-->
+            <!--<th>money</th>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+            <!--<td  v-for="item in searchList" :key="item.id">-->
+                <!--{{item.id}}&#45;&#45;{{item.cardId}}&#45;&#45;{{item.pwd}}&#45;&#45;{{item.money}}-->
+                <!--<button type="button" @click="del(item.id)" > 删除</button>-->
+                <!--<button type="button"  @click="update(item.id)" > 修改</button>-->
+            <!--</td>-->
+
+        <!--</tbody>-->
+    <!--</table>-->
+
+
+    <ul>
+        <li v-for="item in searchList" :key="item.id">
+
+            {{item.id}}--{{item.cardId}}--{{item.pwd}}--{{item.money}}
+            <button type="button" @click="del(item.id)" > 删除</button>
+            <button type="button"  @click="update(item.id)" > 修改</button>
+
+        </li>
+
+    </ul>
+    <input type="text" v-model="person.id" placeholder="id" />
+    <input type="text" v-model="person.cardId" placeholder="卡号" />
+    <input type="text" v-model="person.pwd" placeholder="密码" />
+    <input type="text" v-model="person.money" placeholder="钱" />
+    <button type="button" @click="add(person)">add</button>
+</div>
+
+</body>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript">
+
+    var vm = new Vue({
+
+        el:"#app",
+        data:{
+            search:"",
+            studentList:[
+                {id: 1, cardId: "6225880287860549", pwd: "909090", money: 9000},
+                {id: 2, cardId: "6225880287862345", pwd: "666666", money: 100},
+                {id: 3, cardId: "6225880287861234", pwd: "888888", money: 5000},
+                {id: 4, cardId: "6225880287860549", pwd: "909090", money: 9000},
+                {id: 5, cardId: "6225880287862345", pwd: "666666", money: 100},
+                {id: 6, cardId: "6225880287861234", pwd: "888888", money: 5000},
+                {id: 7, cardId: "6225880287860549", pwd: "909090", money: 9000},
+                {id: 8, cardId: "6225880287862345", pwd: "666666", money: 100},
+                {id: 9, cardId: "6225880287861234", pwd: "888888", money: 5000}
+            ],
+            person:{
+                id:'',
+                cardId:'',
+                pwd:'',
+                money:''
+            }
+        },
+        methods:{
+//
+            del: function (id){              //del
+                console.log('id = ',id);
+                for(var i = 0;i<this.studentList.length;i++){
+                    if(id == this.studentList[i].id){
+                        this.studentList.splice(i,1);
+                    }
+                }
+                return 0;
+            },
+            add: function (obj) {
+                console.log(obj);
+                var person = {
+                    id:obj.id,
+                    cardId:obj.cardId,
+                    pwd:obj.pwd,
+                    money:obj.money
+                };
+                console.log('person = ',person);
+                this.studentList.push(person);
+            },
+            update: function (id) {
+                console.log('id = ',id);
+                for(var i = 0;i<this.studentList.length;i++){
+                    if(id == this.studentList[i].id){
+//                        console.log(this.studentList[i]);
+                        this.studentList[i].id = +prompt('请输入id');
+//                        this.studentList[i].cardId= +prompt('请输入卡号');
+                        this.studentList[i].pwd= +prompt('请输入密码');
+                        this.studentList[i].money= +prompt('请输入钱数');
+//                            cardId:+prompt('请输入卡号'),
+//                            pwd:+prompt('请输入密码'),
+//                            money:+prompt('请输入钱数')
+
+                        console.log('after = ',this.studentList);
+                        }
+
+                    }
+
+                return 1;
+            }
+//
+        },
+        computed:{
+
+            searchList: function () {
+                var arr = [];
+                console.log('stu = ',this.studentList);
+                for(var i = 0;i<this.studentList.length;i++){
+                    if(this.studentList[i].cardId.indexOf(this.search)>=0){
+                        arr.push(this.studentList[i]);
+                    }
+                }
+                console.log('hhhhhh');
+                return arr;
+            }
+
+        }
+
+
+    })
+
+</script>
+</html>
