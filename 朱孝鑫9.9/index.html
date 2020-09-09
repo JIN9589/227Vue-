@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+		<script src="./day01/js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			* {
+				list-style: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<ul>
+				<li v-for="item in students" :key="item.id+'1'">{{item.id}}--{{item.name}}--{{item.sex}}--{{item.age}}--<button
+					 type="button" @click="del(item.id)" :key="item.id+'2'">删除</button><button type="button" :key="item.id" @click="setValue(item.id)">修改</button></li>
+			</ul>
+			<input type="text" name="" placeholder="输入姓名" v-model="serchList" />
+			<p v-for="item in serch">{{item.id}}--{{item.name}}--{{item.sex}}--{{item.age}}</p>
+			<input type="text" name="" value="" v-model="addstudents.id" />
+			<input type="text" name="" value="" v-model="addstudents.name" />
+			<input type="text" name="" value="" v-model="addstudents.sex" />
+			<input type="text" name="" value="" v-model="addstudents.age" />
+			<button @click="insert()">添加</button>
+			<div id="show" v-show="show">
+				<input type="text" name="" value="" v-model="updateList.id" />
+				<input type="text" name="" value="" v-model="updateList.name" />
+				<input type="text" name="" value="" v-model="updateList.sex" />
+				<input type="text" name="" value="" v-model="updateList.age" />
+				<button type="button" @click="update(updateList.id)">更新</button>
+			</div>
+		</div>
+
+		<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+					message: 'Hello Vue!',
+					students: [{
+							id: 1,
+							name: '张三',
+							age: 18,
+							sex: '男'
+						},
+						{
+							id: 2,
+							name: '李四',
+							age: 18,
+							sex: '女'
+						},
+						{
+							id: 3,
+							name: '王二',
+							age: 18,
+							sex: '女'
+						},
+						{
+							id: 4,
+							name: '赵四',
+							age: 18,
+							sex: '男'
+						}
+					],
+					serchList: '',
+					addstudents: {
+						id: '',
+						name: '',
+						age: '',
+						sex: ''
+					},
+					updateList: {
+						id: '',
+						name: '',
+						age: '',
+						sex: ''
+					},
+					show: true
+				},
+
+				methods: {
+					del: function(id) {
+						for (let i = 0; i < this.students.length; i++) {
+							if (id == this.students[i].id) {
+								this.students.splice(this.students.indexOf(id), 1);
+								break;
+							}
+						}
+					},
+					insert: function() {
+						var obj = { ...this.addstudents
+						};
+						this.students.push(obj);
+						this.addstudents.id = '';
+						this.addstudents.age = '';
+						this.addstudents.sex = '';
+						this.addstudents.name = '';
+					},
+					update: function(id) {
+						console.log(id)
+						for (let i = 0; i < this.students.length; i++) {
+							if (this.students[i].id == id) {
+								this.students[i].id = this.updateList.id
+								this.students[i].name = this.updateList.name
+								this.students[i].age = this.updateList.age
+								this.students[i].sex = this.updateList.sex
+								break
+							}
+						}
+					},
+					setValue: function(id) {
+						for (var i = 0; i < this.students.length; i++) {
+							if (this.students[i].id == id) {
+								this.updateList.name = this.students[i].name
+								this.updateList.age = this.students[i].age
+								this.updateList.id = this.students[i].id
+								this.updateList.sex = this.students[i].sex
+							}
+						}
+					}
+				},
+				computed: {
+					serch: function() {
+						var arr = [];
+						return this.students.filter((item) => {
+							return item.name.indexOf(this.serchList) > -1;
+						})
+						/* for (let i = 0; i < this.students.length; i++) {
+							if (this.students[i].name.indexOf(this.serchList) > -1) {
+								arr.push((this.students[i]));
+							}
+						}
+						return arr; */
+					}
+				}
+
+
+			})
+		</script>
+	</body>
+
+</html>
